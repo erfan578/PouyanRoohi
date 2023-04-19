@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./tailwind/output.css">
+    <title>Pouyan Roohi</title>
+</head>
+
+<body class="font-poppins">
+    <div id="app">
+        <header class="flex flex-col items-center pt-4">
+            <div class="container flex items-center justify-between xs:py-8 py-4 xs:mb-7 mb-0">
+                <div class="xs:hidden flex items-center">
+                    <button v-show="!isMenu" @click="openMenu">
+                        <img src="./assets/icons/menu.svg" class="w-8 cursor-pointer">
+                    </button>
+                    <button v-show="isMenu" @click="closeMenu">
+                        <img src="./assets/icons/close.svg" class="w-8 cursor-pointer">
+                    </button>
+                </div>
+                <button class="xs:block hidden">
+                    <img src="./assets/icons/search.svg" class="w-7 cursor-pointer">
+                </button>
+                <h1 v-show="!isMenu" class="md:text-3xl text-[22px] uppercase">Pooyan Roohi</h1>
+                <h1 v-show="isMenu" class="text-[22px] uppercase">Menu</h1>
+                <div class="relative xs:flex hidden">
+                    <button class="btn1 xs:block hidden bg-[#3A8AF7] px-6 py-2 text-white rounded-full"
+                        @click="openListSignIns">Sign In</button>
+                </div>
+                <div class="btn-group1 w-full  hidden buttons  text-center">
+                    <button
+                        class="text-[20px] text-center block m-1 w-full rounded-full button  hover:text-sky-500">sign
+                        in-1</button>
+                    <button
+                        class="text-[20px] text-center block m-1 w-full rounded-full button  hover:text-sky-500">sign
+                        in-2</button>
+                    <button
+                        class="text-[20px] text-center block m-1 w-full rounded-full button  hover:text-sky-500">sign
+                        in-3</button>
+                </div>
+                <div class="xs:hidden block w-8"></div>
+            </div>
+            <hr class="xs:hidden block w-full border-[1px] border-[#F1F5F9]">
+            <nav v-show="isMenu" class="container xs:hidden flex flex-col items-center gap-2 w-[95%] pt-7">
+                <button href="#" class="flex justify-between w-full py-4
+                 px-5 rounded-md"
+                    :class="activeNavItem == 'about' ? 'bg-[#3A8AF7] text-white' : 'bg-[#F1F5F9] text-black'"
+                    @click="setActiveNavItem('about')">
+                    <span>About</span>
+                    <span class="w-1 h-5 bg-white rounded-full"></span>
+                </button>
+                <button href="#" class="flex justify-between w-full py-4
+                 px-5 rounded-md"
+                    :class="activeNavItem == 'works' ? 'bg-[#3A8AF7] text-white' : 'bg-[#F1F5F9] text-black'"
+                    @click="setActiveNavItem('works')">
+                    <span>Works</span>
+                    <span class="w-1 h-5 bg-white rounded-full"></span>
+                </button>
+                <button href="#" class="flex justify-between w-full py-4
+                px-5 rounded-md"
+                    :class="activeNavItem == 'articles' ? 'bg-[#3A8AF7] text-white' : 'bg-[#F1F5F9] text-black'"
+                    @click="setActiveNavItem('articles')">
+                    <span>Articles</span>
+                    <span class="w-1 h-5 bg-white rounded-full"></span>
+                </button>
+                <button href="#" class="flex justify-between w-full py-4
+               px-5 rounded-md"
+                    :class="activeNavItem == 'portfolio' ? 'bg-[#3A8AF7] text-white' : 'bg-[#F1F5F9] text-black'"
+                    @click="setActiveNavItem('portfolio')">
+                    <span>Portfolio</span>
+                    <span class="w-1 h-5 bg-white rounded-full"></span>
+                </button>
+            </nav>
+            <nav class="container xs:flex hidden justify-between xl:w-[60%] sm:w-[70%] w-[78%] pb-3">
+                <button href="#" class="relative flex flex-col items-center font-medium uppercase"
+                    @click="setActiveNavItem('about')">
+                    <span>About</span>
+                    <span v-show="activeNavItem == 'about'"
+                        class="absolute -bottom-[0.92rem] w-[40%] h-[3px] bg-[#3A8AF7]"></span>
+                </button>
+                <button href="#" class="relative flex flex-col items-center font-medium uppercase"
+                    @click="setActiveNavItem('works')">
+                    <span>Works</span>
+                    <span v-show="activeNavItem == 'works'"
+                        class="absolute -bottom-[0.92rem] w-[40%] h-[3px] bg-[#3A8AF7]"></span>
+                </button>
+                <button href="#" class="relative flex flex-col items-center font-medium uppercase"
+                    @click="setActiveNavItem('articles')">
+                    <span>Articles</span>
+                    <span v-show="activeNavItem == 'articles'"
+                        class="absolute -bottom-[0.92rem] w-[40%] h-[3px] bg-[#3A8AF7]"></span>
+                </button>
+                <button href="#" class="relative flex flex-col items-center font-medium uppercase"
+                    @click="setActiveNavItem('portfolio')">
+                    <span>Portfolio</span>
+                    <span v-show="activeNavItem == 'portfolio'"
+                        class="absolute -bottom-[0.92rem] w-[40%] h-[3px] bg-[#3A8AF7]"></span>
+                </button>
+            </nav>
+            <hr class="xs:block hidden xl:w-[65%] sm:w-[75%] w-[80%] border-2 border-[#F1F5F9]">
+        </header>
+        <div v-show="!isMenu">
+            <section v-show="activeNavItem == 'about'" class="flex flex-col items-center justify-between py-10">
+                <h2 class="xs:hidden block text-xl text-[#3A8AF7] mb-8">About</h2>
+                <div class="flex sm:flex-row flex-col items-center sm:gap-7 gap-5 xl:w-[65%] sm:w-[75%] w-[80%] mb-36">
+                    <img src="./assets/images/pouyan.png" alt="" class="w-40 rounded-full">
+                    <p class="font-dana text-[15px] text-right leading-[1.625rem] capitalize">
+                        I am Pouyan Rouhi. I have been addicted to Video games since childhood, and when I became a teenager, I started studying economics. In 2012, one day, I accidentally met one of my old friends, and he introduced me to Bitcoin. The combination of computer games and economics led to my understanding of digital assets. Since 2012, I have been investing in digital currencies and digital assets.
+                    </p>
+                </div>
+                <hr class="w-[60%] mb-5 border-[1px] border-[#F1F5F9]">
+                <div class="flex gap-7">
+                    <a href="https://www.instagram.com/pouyanroohi/?hl=en" target="_blank">
+                        <img src="./assets/icons/instagram.svg" alt="" class="w-7">
+                    </a>
+                    <a href="mailto:pouyanroohi.work@gmail.com" target="_blank">
+                        <img src="./assets/icons/email.svg" alt="" class="w-7">
+                    </a>
+                    <a href="https://twitter.com/pouyanroohii?lang=en" target="_blank">
+                        <img src="./assets/icons/twitter.svg" alt="" class="w-7">
+                    </a>
+                </div>
+            </section>
+            <section v-show="activeNavItem == 'works'" class="flex flex-col items-center justify-between py-10">
+                <h2 class="xs:hidden block text-xl text-[#3A8AF7] mb-8">Works</h2>
+                <div class="flex flex-col items-center gap-12">
+                    <div class="flex sm:flex-row flex-col items-center sm:gap-7 gap-5 xl:w-[65%] sm:w-[75%] w-[80%]">
+                        <img src="./assets/images/work1.png" alt="" class="w-40 h-40 rounded-full">
+                        <div>
+                            <h4 class="text-[19px] font-medium mb-3">Hibo finance</h4>
+                            <p class="font-dana text-right text-sm leading-[1.625rem] capitalize">
+                                I started this project in 2015 . This project connected crypto currency lenders to borrowers in a decentralized manner . This project was stopped because it was not compatible with the laws of the country where I lived .This project had a great idea in its time and I always remember it as a successful project
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex sm:flex-row flex-col items-center sm:gap-7 gap-5 xl:w-[65%] sm:w-[75%] w-[80%]">
+                        <img src="./assets/images/Decentra Dragon.png" alt="" class="w-40 h-40 rounded-full">
+                        <div>
+                            <h4 class="text-[19px] font-medium mb-3">Decentra Dragon</h4>
+                            <p class="font-dana text-right text-sm leading-[1.625rem] capitalize">
+                                The Dragon project has 4400 NFTs . I have been active in the financial field since 2012 and have a strong community And I made this project for my community, which became of the most successful projects in the world. This FreeMint project is currently priced at $400 and has a transaction volume of 500 Ethereum in Openseea
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex sm:flex-row flex-col items-center sm:gap-7 gap-5 xl:w-[65%] sm:w-[75%] w-[80%]">
+                        <img src="./assets/images/work3.png" alt="" class="w-40 h-40 rounded-full">
+                        <div>
+                            <h4 class="text-[19px] font-medium mb-3">invest</h4>
+                            <p class="font-dana text-right text-sm leading-[1.625rem] capitalize">
+                                I entered the investment world since 2012. Currently, my focus is on investing in crypto currencies and technologies. I have a team of 25 people which includes analyst-researcher-risk manager.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex sm:flex-row flex-col items-center sm:gap-7 gap-5 xl:w-[65%] sm:w-[75%] w-[80%]">
+                        <img src="./assets/images/Frenchie Friends.jpeg" alt="" class="w-40 h-40 rounded-full">
+                        <div>
+                            <h4 class="text-[19px] font-medium mb-3">Frenchie Friends</h4>
+                            <p class="font-dana text-right text-sm leading-[1.625rem] capitalize">
+                                This NFT project will be released in the summer of 2023 . This project will also have story books and toys
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section v-show="activeNavItem == 'articles'" class="flex flex-col items-center justify-between py-10">
+                <h2 class="xs:hidden block text-xl text-[#3A8AF7] mb-6">Articles</h2>
+                <div v-show="currentPage == 1"
+                    class="grid sm:grid-cols-2 grid-cols-1 md:gap-4 sm:gap-3 gap-2 xl:w-[65%] sm:w-[75%] w-[80%] mb-8">
+                    <div
+                        class="relative flex flex-col justify-end w-full sm:h-[23vw] h-[49vw] sm:p-6 p-4 bg-gray-400 bg-cover rounded-xl cursor-pointer">
+                        <span class="z-[1] md:mb-1.5 mb-1 text-[#B4BAC1] md:text-xs text-[11px]">10 Nov, 2022</span>
+                        <h4 class="z-[1] font-dana text-white md:text-lg text-base">Pooyan Roohi: Bitcoin is the beginning of a revolution in the world</h4>
+                        <div
+                            class="absolute inset-0 sm:bg-[linear-gradient(transparent,80%,rgba(0,0,0,0.7))] bg-[linear-gradient(transparent,90%,rgba(0,0,0,0.8))] rounded-xl">
+                        </div>
+                    </div>
+                    <div
+                        class="relative flex flex-col justify-end w-full sm:h-[23vw] h-[49vw] sm:p-6 p-4 bg-[url('../assets/images/picture3.png')] bg-cover rounded-xl cursor-pointer">
+                        <span class="z-[1] md:mb-1.5 mb-1 text-[#B4BAC1] md:text-xs text-[11px]">10 Nov, 2022</span>
+                        <h4 class="z-[1] font-dana text-white md:text-lg text-base">Websites you should visit once a day</h4>
+                        <div
+                            class="absolute inset-0 sm:bg-[linear-gradient(transparent,80%,rgba(0,0,0,0.7))] bg-[linear-gradient(transparent,90%,rgba(0,0,0,0.8))] rounded-xl">
+                        </div>
+                    </div>
+                    <div
+                        class="relative flex flex-col justify-end w-full sm:h-[23vw] h-[49vw] sm:p-6 p-4 bg-[url('../assets/images/article2.png')] bg-cover rounded-xl cursor-pointer">
+                        <span class="z-[1] msm:d:mb-1.5 mb-1 text-[#B4BAC1] md:text-xs text-[11px]">10 Nov, 2022</span>
+                        <h4 class="z-[1] font-dana text-white md:text-lg text-base">Losses in investment and trade</h4>
+                        <div
+                            class="absolute inset-0 sm:bg-[linear-gradient(transparent,40%,rgba(0,0,0,0.8))] bg-[linear-gradient(transparent,50%,rgba(0,0,0,0.9))] rounded-xl">
+                        </div>
+                    </div>
+                    <div
+                        class="relative flex flex-col justify-end w-full sm:h-[23vw] h-[49vw] sm:p-6 p-4 bg-[url('../assets/images/article3.png')] bg-cover rounded-xl cursor-pointer">
+                        <span class="z-[1] md:mb-1.5 mb-1 text-[#B4BAC1] md:text-xs text-[11px]">10 Nov, 2022</span>
+                        <h4 class="z-[1] font-dana text-white md:text-lg text-base">The best digital currency wallet for Iranians</h4>
+                        <div
+                            class="absolute inset-0 sm:bg-[linear-gradient(transparent,40%,rgba(0,0,0,0.8))] bg-[linear-gradient(transparent,50%,rgba(0,0,0,0.9))] rounded-xl">
+                        </div>
+                    </div>
+                </div>
+                <div v-show="currentPage == 2"
+                    class="grid sm:grid-cols-2 grid-cols-1 md:gap-4 sm:gap-3 gap-2 xl:w-[65%] sm:w-[75%] w-[80%] mb-8">
+                    <div
+                        class="relative flex flex-col justify-end w-full sm:h-[23vw] h-[49vw] sm:p-6 p-4 bg-[url('../assets/images/article4.png')] bg-cover rounded-xl cursor-pointer">
+                        <span class="z-[1] md:mb-1.5 mb-1 text-[#B4BAC1] md:text-xs text-[11px]">10 Nov, 2022</span>
+                        <h4 class="z-[1] font-dana text-white md:text-lg text-base">My podcasts</h4>
+                        <div
+                            class="absolute inset-0 sm:bg-[linear-gradient(transparent,40%,rgba(0,0,0,0.8))] bg-[linear-gradient(transparent,50%,rgba(0,0,0,0.9))] rounded-xl">
+                        </div>
+                    </div>
+                    <div
+                        class="relative flex flex-col justify-end w-full sm:h-[23vw] h-[49vw] sm:p-6 p-4 bg-gray-400 bg-cover rounded-xl cursor-pointer">
+                        <span class="z-[1] md:mb-1.5 mb-1 text-[#B4BAC1] md:text-xs text-[11px]">10 Nov, 2022</span>
+                        <h4 class="z-[1] font-dana text-white md:text-lg text-base">Web Stock Analysis</h4>
+                        <div
+                            class="absolute inset-0 sm:bg-[linear-gradient(transparent,80%,rgba(0,0,0,0.7))] bg-[linear-gradient(transparent,90%,rgba(0,0,0,0.8))] rounded-xl">
+                        </div>
+                    </div>
+                    <div
+                        class="relative flex flex-col justify-end w-full sm:h-[23vw] h-[49vw] sm:p-6 p-4 bg-[url('../assets/images/article9.png')] bg-cover rounded-xl cursor-pointer">
+                        <span class="z-[1] md:mb-1.5 mb-1 text-[#B4BAC1] md:text-xs text-[11px]">10 Nov, 2022</span>
+                        <h4 class="z-[1] font-dana text-white md:text-lg text-base">The best books for the stock market</h4>
+                        <div
+                            class="absolute inset-0 sm:bg-[linear-gradient(transparent,80%,rgba(0,0,0,0.7))] bg-[linear-gradient(transparent,90%,rgba(0,0,0,0.8))] rounded-xl">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center sm:gap-3 gap-2">
+                    <button
+                        class="flex justify-center items-center w-8 h-8 bg-[#F8FAFC] border-[1px] border-solid border-[#F1F5F9] rounded-full">
+                        <img src="./assets/icons/angle-left.svg" alt="">
+                    </button>
+                    <div class="flex sm:gap-2 gap-1">
+                        <button class="w-7 h-7 sm:text-base text-sm text-[#64748B] rounded-full"
+                            :class="currentPage == 1 ? 'text-white bg-[#3A8AF7]' : ''"
+                            @click="setCurrentPage(1)">1</button>
+                        <button class="w-7 h-7 sm:text-base text-sm text-[#64748B] rounded-full"
+                            :class="currentPage == 2 ? 'text-white bg-[#3A8AF7]' : ''"
+                            @click="setCurrentPage(2)">2</button>
+                        <!-- <button class="w-7 h-7 sm:text-base text-sm text-[#64748B]">3</button>
+                        <button class="w-7 h-7 sm:text-base text-sm text-[#64748B]">..</button>
+                        <button class="w-7 h-7 sm:text-base text-sm text-[#64748B]">8</button>
+                        <button class="w-7 h-7 sm:text-base text-sm text-[#64748B]">9</button> -->
+                    </div>
+                    <button
+                        class="flex justify-center items-center w-8 h-8 bg-[#F8FAFC] border-[1px] border-solid border-[#F1F5F9] rounded-full">
+                        <img src="./assets/icons/angle-right.svg" alt="">
+                    </button>
+                </div>
+            </section>
+            <section v-show="activeNavItem == 'portfolio'" class="flex flex-col items-center justify-between py-10">
+                <h2 class="xs:hidden block text-xl text-[#3A8AF7] mb-6">Portfolio</h2>
+                <div class="container xl:w-[65%] sm:w-[75%] w-[80%] sm:mb-11 mb-7">
+                    <p class="text-[15px] leading-[1.625rem] capitalize mb-2">
+                        My investment portfolio is focused on digital assets, I grew up playing video games and I
+                        understand the value of digital assets very well.
+                    </p>
+                    <p class="text-[15px] leading-[1.625rem] capitalize mb-2">
+                        95% of my investment is in digital assets, Most of my focus is on crypto currencies, but a
+                        limited Part of my investments (less than one percent) goes in NFT-ENS. Less than 5% of my
+                        investment is in real estate.
+                    </p>
+                    <p class="text-[15px] leading-[1.625rem] capitalize">
+                        I have 2 portfolios for crypto currencies with two different strategies, one long-term and one
+                        short-term.
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-center xs:gap-12 gap-6 xl:w-[65%] sm:w-[75%] w-[80%]">
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="flex justify-center items-center xs:w-36 w-28 xs:h-36 h-28 bg-[#F8FAFC] mb-2 border-solid border-[1px] border-[#F1F5F9] rounded-full">
+                            <img src="./assets/images/Bitcoin.jpg" alt="" class="w-[70%] rounded-full">
+                        </div>
+                        <span class="uppercase">Bitcoin</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="flex justify-center items-center xs:w-36 w-28 xs:h-36 h-28 bg-[#F8FAFC] mb-2 border-solid border-[1px] border-[#F1F5F9] rounded-full">
+                            <img src="./assets/images/Altcoin.jpg" alt="" class="w-[70%] rounded-full">
+                        </div>
+                        <span class="uppercase">Altcoin</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="flex justify-center items-center xs:w-36 w-28 xs:h-36 h-28 bg-[#F8FAFC] mb-2 border-solid border-[1px] border-[#F1F5F9] rounded-full">
+                            <img src="./assets/images/RealEstate.jpg" alt="" class="w-[70%] rounded-full">
+                        </div>
+                        <span class="text-sm uppercase">Real Estate</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="flex justify-center items-center xs:w-36 w-28 xs:h-36 h-28 bg-[#F8FAFC] mb-2 border-solid border-[1px] border-[#F1F5F9] rounded-full">
+                            <img src="./assets/images/NFT.jpg" alt="" class="w-[70%] rounded-full">
+                        </div>
+                        <span class="uppercase">NFT</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            class="flex justify-center items-center xs:w-36 w-28 xs:h-36 h-28 bg-[#F8FAFC] mb-2 border-solid border-[1px] border-[#F1F5F9] rounded-full">
+                            <img src="./assets/images/ENS.jpg" alt="" class="w-[70%] rounded-full">
+                        </div>
+                        <span class="uppercase">ENS</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+
+<script src="./assets/scripts/vue3.js"></script>
+
+<script>
+    const { createApp, ref, reactive } = Vue;
+
+    createApp({
+        setup() {
+            const isListSignIns = ref(false);
+            function openListSignIns() {
+                isListSignIns.value = !isListSignIns.value;
+            }
+
+            const isSignIn = ref(false);
+            function openSignIn() {
+                isSignIn.value = true;
+            }
+            function closeSignIn() {
+                isSignIn.value = false;
+            }
+
+            const isMenu = ref(false);
+            function openMenu() {
+                isMenu.value = true;
+            }
+            function closeMenu() {
+                isMenu.value = false;
+            }
+
+            const activeNavItem = ref('about');
+            function setActiveNavItem(name) {
+                activeNavItem.value = name;
+                closeMenu();
+            }
+
+            const currentPage = ref(1);
+            function setCurrentPage(value) {
+                currentPage.value = value;
+            }
+
+            return {
+                isListSignIns, openListSignIns,
+                isSignIn, openSignIn, closeSignIn,
+                isMenu, openMenu, closeMenu,
+                activeNavItem, setActiveNavItem,
+                currentPage, setCurrentPage
+            }
+        }
+    }).mount('#app')
+</script>
+
+</html>
